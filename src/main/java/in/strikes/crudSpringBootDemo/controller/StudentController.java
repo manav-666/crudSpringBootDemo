@@ -1,7 +1,12 @@
 package in.strikes.crudSpringBootDemo.controller;
 
+import in.strikes.crudSpringBootDemo.dto.createStudentRequestDTO;
+import in.strikes.crudSpringBootDemo.dto.createStudentResponseDto;
+import in.strikes.crudSpringBootDemo.dto.updateStudentRequestDto;
+import in.strikes.crudSpringBootDemo.dto.updateStudentResponseDto;
 import in.strikes.crudSpringBootDemo.entity.Student;
 import in.strikes.crudSpringBootDemo.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +25,17 @@ public class StudentController {
 
     @PostMapping("/create")
 //    public String createStudent(@RequestBody Student student){
-    public ResponseEntity<Student> createStudent(@RequestBody Student student){
+    public ResponseEntity<createStudentResponseDto> createStudent(@Valid @RequestBody createStudentRequestDTO createStudentRequestDTO){
 //        System.out.println(student.getName());
 //        System.out.println(student.getEmail());
-        System.out.println("Inside Student Controller");
-        Student createdStudent = studentService.createStudent(student);
-        System.out.println("Exiting Student Controller");
+        createStudentResponseDto createdStudent = studentService.createStudent(createStudentRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
     }
 
 //    @GetMapping("/get/{id}")
     @GetMapping("/get")
-    public ResponseEntity<Student> getStudent(/*@PathVariable*/ @RequestParam Long id){
-        Student studentResp = studentService.getStudent(id);
+    public ResponseEntity<createStudentResponseDto> getStudent(/*@PathVariable*/ @RequestParam Long id){
+        createStudentResponseDto studentResp = studentService.getStudent(id);
 
         if (studentResp == null){
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -44,8 +47,8 @@ public class StudentController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Student>> getAllStudent(){
-        List<Student> studentList = studentService.getAllStudent();
+    public ResponseEntity<List<createStudentResponseDto>> getAllStudent(){
+        List<createStudentResponseDto> studentList = studentService.getAllStudent();
 
         if (studentList == null){
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -55,10 +58,10 @@ public class StudentController {
         return ResponseEntity.ok(studentList);
     }
 
-//    @PutMapping("/update/{id}")
+    @PutMapping("/update")
 //    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student){
-    public ResponseEntity<Student> updateStudent(@RequestParam Long id, @RequestBody Student student){
-        Student studentResp = studentService.updateStudent(id ,student);
+    public ResponseEntity<updateStudentResponseDto> updateStudent(@RequestParam Long id, @RequestBody updateStudentRequestDto updateStudentRequestDto){
+        updateStudentResponseDto studentResp = studentService.updateStudent(id ,updateStudentRequestDto);
 
         if (studentResp == null){
 //            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
